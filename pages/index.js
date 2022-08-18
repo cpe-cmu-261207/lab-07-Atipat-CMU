@@ -24,7 +24,7 @@ export default function Home() {
       alert("Todo cannot be empty");
     } else {
       const todo = { name: todoName, completed: false };
-      setTodos([todo, ...todos]);
+      todos ? setTodos([todo, ...todos]) : setTodos([todo]);
       setInputTodo("");
     }
   };
@@ -82,28 +82,33 @@ export default function Home() {
           }}
           value={inputTodo}
         />
-        {todos.map((todo, i) => {
-          return (
-            <Todo
-              name={todo.name}
-              completed={todo.completed}
-              key={i}
-              onDelete={() => deleteTodo(i)}
-              onMark={() => markTodo(i)}
-              onClickUp={() => moveUp(i)}
-              onClickDown={() => moveDown(i)}
-            ></Todo>
-          );
-        })}
+        {todos &&
+          todos.map((todo, i) => {
+            return (
+              <Todo
+                name={todo.name}
+                completed={todo.completed}
+                key={i}
+                onDelete={() => deleteTodo(i)}
+                onMark={() => markTodo(i)}
+                onClickUp={() => moveUp(i)}
+                onClickDown={() => moveDown(i)}
+              ></Todo>
+            );
+          })}
 
         {/* summary section */}
         <p className="text-center fs-4">
-          <span className="text-primary">All ({todos.length}) </span>
+          <span className="text-primary">
+            All ({todos ? todos.length : 0}){" "}
+          </span>
           <span className="text-warning">
-            Pending ({todos.filter((x) => x.completed === false).length}){" "}
+            Pending (
+            {todos ? todos.filter((x) => x.completed === false).length : 0}){" "}
           </span>
           <span className="text-success">
-            Completed ({todos.filter((x) => x.completed === true).length})
+            Completed (
+            {todos ? todos.filter((x) => x.completed === true).length : 0})
           </span>
         </p>
 
