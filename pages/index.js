@@ -10,13 +10,15 @@ export default function Home() {
   useEffect(() => {
     const newTodos = JSON.parse(localStorage.getItem("todos-list"));
     let nCompleted = 0;
-    for (let todo of newTodos) {
-      if (todo.completed === true) {
-        nCompleted = nCompleted + 1;
+    if (newTodos) {
+      for (let todo of newTodos) {
+        if (todo.completed === true) {
+          nCompleted = nCompleted + 1;
+        }
       }
+      setCounterCompleted(nCompleted);
+      setTodos(newTodos);
     }
-    setCounterCompleted(nCompleted);
-    setTodos(newTodos);
   }, []);
 
   useEffect(() => {
