@@ -5,20 +5,10 @@ export default function Home() {
   const [inputTodo, setInputTodo] = useState("");
   const [todos, setTodos] = useState([]);
   const [isFirstRender, setIsFirstRender] = useState(true);
-  const [counterCompleted, setCounterCompleted] = useState(0);
 
   useEffect(() => {
     const newTodos = JSON.parse(localStorage.getItem("todos-list"));
-    let nCompleted = 0;
-    if (newTodos) {
-      for (let todo of newTodos) {
-        if (todo.completed === true) {
-          nCompleted = nCompleted + 1;
-        }
-      }
-      setCounterCompleted(nCompleted);
-      setTodos(newTodos);
-    }
+    setTodos(newTodos);
   }, []);
 
   useEffect(() => {
@@ -47,11 +37,6 @@ export default function Home() {
 
   const markTodo = (idx) => {
     todos[idx].completed = !todos[idx].completed;
-    if (todos[idx].completed === true) {
-      setCounterCompleted(counterCompleted + 1);
-    } else {
-      setCounterCompleted(counterCompleted - 1);
-    }
     setTodos([...todos]);
   };
 
@@ -115,9 +100,11 @@ export default function Home() {
         <p className="text-center fs-4">
           <span className="text-primary">All ({todos.length}) </span>
           <span className="text-warning">
-            Pending ({todos.length - counterCompleted}){" "}
+            Pending ({todos.filter((x) => x.completed === false).length}){" "}
           </span>
-          <span className="text-success">Completed ({counterCompleted})</span>
+          <span className="text-success">
+            Completed ({todos.filter((x) => x.completed === true).length})
+          </span>
         </p>
 
         {/* Made by section */}
